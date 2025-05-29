@@ -34,7 +34,7 @@ export default function Navbar() {
           <Link href="/" className="z-50">
             <div className="relative h-12 w-auto">
               <Image
-                src="/images/logo.svg"
+                src="/images/logo.png"
                 alt="Nasihah Legal"
                 width={180}
                 height={48}
