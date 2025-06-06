@@ -155,12 +155,18 @@ export default function ContactPage() {
             {/* Contact Form */}
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-2xl font-bold mb-6 font-playfair">Send Us a Message</h3>
-              <form className="space-y-6">
+              <form 
+                action="https://formspree.io/f/mjkrgvav" 
+                method="POST" 
+                className="space-y-6"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
                     <input 
                       type="text" 
+                      name="firstName"
+                      required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
                       placeholder="Your first name"
                     />
@@ -169,6 +175,8 @@ export default function ContactPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
                     <input 
                       type="text" 
+                      name="lastName"
+                      required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
                       placeholder="Your last name"
                     />
@@ -179,6 +187,8 @@ export default function ContactPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
                   <input 
                     type="email" 
+                    name="email"
+                    required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
                     placeholder="your.email@example.com"
                   />
@@ -188,6 +198,7 @@ export default function ContactPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
                   <input 
                     type="tel" 
+                    name="phone"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
                     placeholder="(03) 1234 5678"
                   />
@@ -195,7 +206,11 @@ export default function ContactPage() {
                 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Practice Area *</label>
-                  <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent">
+                  <select 
+                    name="practiceArea"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
+                  >
                     <option value="">Select a practice area</option>
                     {practiceAreas.map((area, index) => (
                       <option key={index} value={area}>{area}</option>
@@ -207,6 +222,8 @@ export default function ContactPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Message *</label>
                   <textarea 
                     rows={5}
+                    name="message"
+                    required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
                     placeholder="Please describe your legal matter and how we can help you..."
                   ></textarea>
@@ -216,6 +233,8 @@ export default function ContactPage() {
                   <input 
                     type="checkbox" 
                     id="privacy" 
+                    name="privacyConsent"
+                    required
                     className="mt-1 w-4 h-4 text-primary-dark border-gray-300 rounded focus:ring-primary-light"
                   />
                   <label htmlFor="privacy" className="text-sm text-gray-600">
