@@ -50,7 +50,7 @@ export default function StatsSection() {
       <div className="absolute top-16 left-8 opacity-25 z-0">
         <LegalPillar variant="light" size="xl" />
       </div>
-      <div className="absolute top-32 right-12 opacity-10 z-0">
+      {/* <div className="absolute top-32 right-12 opacity-10 z-0">
         <LegalPillar variant="pattern" size="lg" rotate />
       </div>
       <div className="absolute bottom-20 left-1/4 opacity-6 z-0">
@@ -58,7 +58,7 @@ export default function StatsSection() {
       </div>
       <div className="absolute bottom-16 right-1/3 opacity-12 z-0">
         <LegalPillar variant="pattern" size="sm" />
-      </div>
+      </div> */}
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
