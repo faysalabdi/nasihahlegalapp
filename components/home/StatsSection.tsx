@@ -47,7 +47,7 @@ export default function StatsSection() {
   return (
     <section className="py-20 bg-primary-dark text-white relative overflow-hidden">
       {/* Decorative Legal Pillars */}
-      <div className="absolute top-16 left-8 opacity-8 z-0">
+      <div className="absolute top-16 left-8 opacity-15 z-0">
         <LegalPillar variant="light" size="xl" />
       </div>
       <div className="absolute top-32 right-12 opacity-10 z-0">
