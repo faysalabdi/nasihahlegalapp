@@ -10,13 +10,14 @@ import BlogSection from '@/components/home/BlogSection';
 import FAQSection from '@/components/home/FAQSection';
 import NewsSection from '@/components/home/NewsSection';
 import ContactSection from '@/components/home/ContactSection';
-import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, CONTACT_INFO } from '@/lib/constants';
+import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, SITE_MOTTO, CONTACT_INFO } from '@/lib/constants';
 
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "LegalService",
   "name": SITE_NAME,
-  "description": SITE_DESCRIPTION,
+  "description": `${SITE_NAME} - "${SITE_MOTTO}" ${SITE_DESCRIPTION}`,
+  "slogan": SITE_MOTTO,
   "url": SITE_URL,
   "logo": `${SITE_URL}/images/logo.png`,
   "image": `${SITE_URL}/og-image.png`,

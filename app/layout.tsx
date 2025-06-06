@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { inter, playfair } from '@/lib/theme';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from '@/lib/constants';
+import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, SITE_MOTTO } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: {
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_AU',
     url: SITE_URL,
-    title: `${SITE_NAME} | Professional Legal Services in Coburg, Melbourne`,
+    title: `${SITE_NAME} - "${SITE_MOTTO}" | Professional Legal Services in Coburg, Melbourne`,
     description: SITE_DESCRIPTION,
     siteName: SITE_NAME,
     images: [
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${SITE_NAME} | Professional Legal Services in Coburg, Melbourne`,
+    title: `${SITE_NAME} - "${SITE_MOTTO}" | Professional Legal Services in Coburg, Melbourne`,
     description: SITE_DESCRIPTION,
     images: ['/og-image.png'],
     creator: '@nasihahlegal',

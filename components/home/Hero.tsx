@@ -27,6 +27,18 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
+            {/* Motto */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mb-6"
+            >
+              <p className="text-accent-gold text-lg md:text-xl font-medium tracking-wide">
+                "Sincere counsel. Trusted results."
+              </p>
+            </motion.div>
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 font-playfair">
               Expert Legal Solutions for Complex Challenges
             </h1>
