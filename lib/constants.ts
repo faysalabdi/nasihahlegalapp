@@ -1,6 +1,6 @@
 export const SITE_NAME = 'Nasihah Legal';
 export const SITE_URL = 'https://nasihahlegal.com.au';
-export const SITE_DESCRIPTION = 'Professional legal services in Coburg, Melbourne. Specialists in civil litigation, criminal law, family law, property law, and more.';
+export const SITE_DESCRIPTION = 'Nasihah Legal provides expert legal services in Coburg, Melbourne. Specializing in civil litigation, criminal law, family law, property law, wills & estates, and commercial law. Experienced solicitors with a 98% success rate. Free consultation available.';
 
 export const NAV_ITEMS = [
   { name: 'Home', href: '/' },
