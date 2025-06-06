@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Scale, Gavel, Scroll, Users, Home } from 'lucide-react';
 import { PRACTICE_AREAS } from '@/lib/constants';
+import LegalPillar from '@/src/components/LegalPillar';
 
 export default function PracticeAreas() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -27,8 +28,22 @@ export default function PracticeAreas() {
   };
 
   return (
-    <section className="py-20 bg-background-subtle">
-      <div className="container mx-auto px-4">
+    <section className="py-20 bg-background-subtle relative overflow-hidden">
+      {/* Decorative Legal Pillars */}
+      <div className="absolute top-16 left-8 opacity-5 z-0">
+        <LegalPillar variant="dark" size="xl" />
+      </div>
+      <div className="absolute top-40 right-12 opacity-8 z-0">
+        <LegalPillar variant="light" size="lg" rotate />
+      </div>
+      <div className="absolute bottom-20 left-1/3 opacity-6 z-0">
+        <LegalPillar variant="pattern" size="md" />
+      </div>
+      <div className="absolute bottom-32 right-1/4 opacity-10 z-0">
+        <LegalPillar variant="dark" size="sm" rotate />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-playfair">Our Practice Areas</h2>
           <p className="text-lg text-muted-foreground">
@@ -40,7 +55,7 @@ export default function PracticeAreas() {
           {PRACTICE_AREAS.map((area, index) => (
             <motion.div
               key={area.title}
-              className="bg-white rounded-lg shadow-md overflow-hidden h-full transition-all duration-300"
+              className="bg-white rounded-lg shadow-md overflow-hidden h-full transition-all duration-300 relative"
               whileHover={{ y: -5, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -49,6 +64,13 @@ export default function PracticeAreas() {
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
+              {/* Subtle decorative pillar on some cards */}
+              {index % 2 === 0 && (
+                <div className="absolute top-4 right-4 opacity-5">
+                  <LegalPillar variant="pattern" size="sm" />
+                </div>
+              )}
+              
               <div className="p-6 flex flex-col h-full">
                 <div className="bg-primary-light/10 text-primary-dark p-3 rounded-full w-fit mb-6">
                   {renderIcon(area.icon)}

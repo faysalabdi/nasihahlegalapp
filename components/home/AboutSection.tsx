@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
+import LegalPillar from '@/src/components/LegalPillar';
 
 export default function AboutSection() {
   const values = [
@@ -15,16 +16,32 @@ export default function AboutSection() {
   ];
 
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4">
+    <section className="py-20 relative overflow-hidden">
+      {/* Decorative Legal Pillars */}
+      <div className="absolute top-12 right-8 opacity-7 z-0">
+        <LegalPillar variant="light" size="lg" />
+      </div>
+      <div className="absolute top-48 left-12 opacity-5 z-0">
+        <LegalPillar variant="dark" size="xl" rotate />
+      </div>
+      <div className="absolute bottom-16 right-1/4 opacity-10 z-0">
+        <LegalPillar variant="pattern" size="md" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="order-2 lg:order-1"
+            className="order-2 lg:order-1 relative"
           >
+            {/* Subtle decorative pillar near text */}
+            <div className="absolute -top-6 -left-6 opacity-8">
+              <LegalPillar variant="pattern" size="sm" rotate />
+            </div>
+            
             <div className="text-left">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 font-playfair">About Nasihah Legal</h2>
               <p className="text-lg text-muted-foreground mb-6">
@@ -61,8 +78,13 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="order-1 lg:order-2"
+            className="order-1 lg:order-2 relative"
           >
+            {/* Decorative pillar near image */}
+            <div className="absolute -top-8 -right-8 opacity-15">
+              <LegalPillar variant="light" size="md" rotate />
+            </div>
+            
             <div className="relative">
               <div className="relative h-[500px] rounded-lg overflow-hidden">
                 <Image

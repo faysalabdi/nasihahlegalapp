@@ -4,11 +4,26 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { TEAM_MEMBERS } from '@/lib/constants';
+import LegalPillar from '@/src/components/LegalPillar';
 
 export default function TeamSection() {
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4">
+    <section className="py-20 relative overflow-hidden">
+      {/* Decorative Legal Pillars */}
+      <div className="absolute top-20 left-6 opacity-6 z-0">
+        <LegalPillar variant="pattern" size="lg" />
+      </div>
+      <div className="absolute top-32 right-10 opacity-8 z-0">
+        <LegalPillar variant="dark" size="xl" rotate />
+      </div>
+      <div className="absolute bottom-24 left-1/3 opacity-5 z-0">
+        <LegalPillar variant="light" size="md" rotate />
+      </div>
+      <div className="absolute bottom-16 right-1/4 opacity-10 z-0">
+        <LegalPillar variant="pattern" size="sm" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-playfair">Our Legal Team</h2>
           <p className="text-lg text-muted-foreground">
@@ -25,8 +40,15 @@ export default function TeamSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
-              className="bg-white rounded-lg shadow-md overflow-hidden group"
+              className="bg-white rounded-lg shadow-md overflow-hidden group relative"
             >
+              {/* Subtle decorative pillar on alternating cards */}
+              {index % 3 === 0 && (
+                <div className="absolute top-2 right-2 opacity-8 z-10">
+                  <LegalPillar variant="light" size="sm" />
+                </div>
+              )}
+              
               <div className="relative h-80 overflow-hidden">
                 <Image
                   src={member.image}

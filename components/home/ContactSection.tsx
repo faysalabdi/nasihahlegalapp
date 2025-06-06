@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
 import { CONTACT_INFO } from '@/lib/constants';
+import LegalPillar from '@/src/components/LegalPillar';
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -69,15 +70,35 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4">
+    <section className="py-20 relative overflow-hidden">
+      {/* Decorative Legal Pillars */}
+      <div className="absolute top-16 left-8 opacity-7 z-0">
+        <LegalPillar variant="pattern" size="lg" />
+      </div>
+      <div className="absolute top-40 right-12 opacity-5 z-0">
+        <LegalPillar variant="dark" size="xl" rotate />
+      </div>
+      <div className="absolute bottom-20 left-1/4 opacity-10 z-0">
+        <LegalPillar variant="light" size="md" />
+      </div>
+      <div className="absolute bottom-32 right-1/3 opacity-8 z-0">
+        <LegalPillar variant="pattern" size="sm" rotate />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="relative"
           >
+            {/* Subtle decorative pillar near contact info */}
+            <div className="absolute -top-6 -left-6 opacity-12">
+              <LegalPillar variant="light" size="sm" rotate />
+            </div>
+            
             <div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4 font-playfair">Get in Touch</h2>
               <p className="text-lg text-muted-foreground mb-8">
@@ -150,7 +171,13 @@ export default function ContactSection() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="relative"
           >
+            {/* Decorative pillar near form */}
+            <div className="absolute -top-8 -right-8 opacity-15">
+              <LegalPillar variant="pattern" size="md" rotate />
+            </div>
+            
             <div className="bg-white rounded-lg shadow-md p-8">
               {isSubmitted ? (
                 <div className="text-center py-8">

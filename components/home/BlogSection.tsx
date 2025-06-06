@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { CalendarIcon } from 'lucide-react';
 import { BLOG_POSTS } from '@/lib/constants';
+import LegalPillar from '@/src/components/LegalPillar';
 
 function formatDate(dateString: string) {
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -13,8 +14,22 @@ function formatDate(dateString: string) {
 
 export default function BlogSection() {
   return (
-    <section className="py-20 bg-background-subtle">
-      <div className="container mx-auto px-4">
+    <section className="py-20 bg-background-subtle relative overflow-hidden">
+      {/* Decorative Legal Pillars */}
+      <div className="absolute top-12 left-10 opacity-6 z-0">
+        <LegalPillar variant="dark" size="lg" />
+      </div>
+      <div className="absolute top-32 right-8 opacity-8 z-0">
+        <LegalPillar variant="pattern" size="xl" rotate />
+      </div>
+      <div className="absolute bottom-24 left-1/4 opacity-5 z-0">
+        <LegalPillar variant="light" size="md" rotate />
+      </div>
+      <div className="absolute bottom-16 right-1/3 opacity-10 z-0">
+        <LegalPillar variant="dark" size="sm" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-playfair">Latest Insights</h2>
           <p className="text-lg text-muted-foreground">
@@ -30,8 +45,15 @@ export default function BlogSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="bg-white rounded-lg shadow-md overflow-hidden group"
+              className="bg-white rounded-lg shadow-md overflow-hidden group relative"
             >
+              {/* Subtle decorative pillar on first and last cards */}
+              {(index === 0 || index === BLOG_POSTS.length - 1) && (
+                <div className="absolute top-3 right-3 opacity-8 z-10">
+                  <LegalPillar variant="pattern" size="sm" />
+                </div>
+              )}
+              
               <Link href={`/blog/${post.slug}`} className="block">
                 <div className="relative h-48 overflow-hidden">
                   <Image

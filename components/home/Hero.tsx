@@ -3,10 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import LegalPillar from '@/src/components/LegalPillar';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -52,8 +53,13 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="hidden lg:block"
+            className="hidden lg:block relative"
           >
+            {/* Additional decorative pillar near the card */}
+            <div className="absolute -top-8 -right-8 opacity-20">
+              <LegalPillar variant="pattern" size="md" rotate />
+            </div>
+            
             <div className="bg-white/10 backdrop-blur-sm p-8 rounded-lg border border-white/20">
               <h3 className="text-xl font-semibold text-white mb-4">How Can We Help You?</h3>
               <ul className="space-y-3">
