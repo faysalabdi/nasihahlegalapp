@@ -1,11 +1,6 @@
 import { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-// Import the pillar graphics
-import pillarDark from '@/assets/legalpiece1.png';
-import pillarLight from '@/assets/legalpiece2.png';
-import pillarPattern from '@/assets/legalpieces.png';
-
 interface LegalPillarProps extends HTMLAttributes<HTMLDivElement> {
   variant?: "dark" | "light" | "pattern";
   size?: "sm" | "md" | "lg" | "xl";
@@ -23,12 +18,12 @@ const LegalPillar = ({
   const getImagePath = () => {
     switch(variant) {
       case "light":
-        return pillarLight;
+        return "/images/legalpiece2.png";
       case "pattern":
-        return pillarPattern;
+        return "/images/legalpieces.png";
       case "dark":
       default:
-        return pillarDark;
+        return "/images/legalpiece1.png";
     }
   };
 
@@ -57,7 +52,7 @@ const LegalPillar = ({
       {...props}
     >
       <img 
-        src={getImagePath().src} 
+        src={getImagePath()} 
         alt="Legal pillar motif" 
         className="w-full h-full object-contain"
       />
