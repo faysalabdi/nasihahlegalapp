@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, User, Bot, Phone, Mail, Calendar, ExternalLink, Clock, MapPin, AlertCircle } from 'lucide-react';
+import { MessageCircle, X, User, Bot, Phone, Mail, Calendar, ExternalLink, Clock, MapPin, AlertCircle } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -24,119 +24,169 @@ interface ConversationContext {
 const initialMessages: Message[] = [
   {
     id: '1',
-    text: "Hello! I'm the Nasihah Legal Assistant. I'm here to help you with information about our legal services and answer your questions. How can I assist you today?",
+    text: "Hello! I'm the Nasihah Legal Assistant. I'm here to help you with information about our legal services. Please select an option below to get started:",
     isBot: true,
     timestamp: new Date(),
     quickReplies: [
       "I need legal advice",
       "Book a consultation",
       "Practice areas",
-      "Contact information"
+      "Contact information",
+      "Office hours",
+      "Fees & pricing"
     ]
   }
 ];
 
 const botResponses: { [key: string]: { text: string; quickReplies?: string[]; action?: string } } = {
-  // Legal advice inquiries
-  "legal_advice": {
+  // Main menu responses
+  "I need legal advice": {
     text: "I'd be happy to help connect you with our legal experts. What type of legal matter are you dealing with? Please note that I can provide general information, but for specific legal advice, you'll need to speak with one of our qualified solicitors.",
-    quickReplies: ["Family Law", "Property Law", "Criminal Law", "Commercial Law", "Wills & Estates", "Civil Litigation"]
+    quickReplies: ["Family Law", "Property Law", "Criminal Law", "Commercial Law", "Wills & Estates", "Civil Litigation", "Back to main menu"]
   },
   
-  // Consultation booking
-  "consultation": {
-    text: "Excellent! We offer FREE 30-minute initial consultations. Here are your options:\n\n📞 Call us directly: (03) 9123 4567\n💻 Book online through our contact form\n📧 Email: info@nasihahlegal.com.au\n\nOur consultations are available:\n• Monday-Friday: 8:30am-6:00pm\n• Emergency consultations available 24/7\n\nWould you like me to direct you to our booking page?",
-    quickReplies: ["Yes, book online", "Call now", "Emergency consultation", "Tell me more about the process"]
+  "Book a consultation": {
+    text: "Excellent! We offer FREE 30-minute initial consultations. Here are your booking options:\n\n📞 Phone: (03) 9123 4567\n💻 Online booking through our contact form\n📧 Email: info@nasihahlegal.com.au\n\nOur consultations are available:\n• Monday-Friday: 8:30am-6:00pm\n• Emergency consultations available 24/7\n\nHow would you like to book?",
+    quickReplies: ["Book online now", "Call to book", "Email to book", "Emergency consultation", "Back to main menu"]
   },
   
-  // Practice areas
-  "practice_areas": {
+  "Practice areas": {
     text: "We specialize in comprehensive legal services across multiple areas:\n\n🏠 Family Law - Divorce, custody, property settlements\n🏢 Property Law - Conveyancing, disputes, development\n⚖️ Criminal Law - Defense, representation, appeals\n💼 Commercial Law - Contracts, business disputes\n📋 Civil Litigation - Court representation, disputes\n📜 Wills & Estates - Estate planning, probate\n\nWhich area would you like to know more about?",
-    quickReplies: ["Family Law", "Property Law", "Criminal Law", "Commercial Law", "Civil Litigation", "Wills & Estates"]
+    quickReplies: ["Family Law", "Property Law", "Criminal Law", "Commercial Law", "Civil Litigation", "Wills & Estates", "Back to main menu"]
   },
   
-  // Contact information
-  "contact_info": {
+  "Contact information": {
     text: "Here's how to reach Nasihah Legal:\n\n📞 Phone: (03) 9123 4567\n📧 Email: info@nasihahlegal.com.au\n📍 Address: 123 Sydney Road, Coburg VIC 3058\n\n🕒 Office Hours:\nMonday-Friday: 8:30am-6:00pm\nSaturday: By appointment\nSunday: Emergency consultations only\n\n🚨 24/7 Emergency Line Available\n\nWe're conveniently located near public transport and offer free parking.",
-    quickReplies: ["Book consultation", "Get directions", "Emergency contact", "Send email"]
+    quickReplies: ["Call now", "Get directions", "Send email", "Book consultation", "Back to main menu"]
   },
   
-  // Detailed practice area responses
-  "family_law": {
-    text: "Our Family Law team provides compassionate and expert assistance with:\n\n💔 Divorce & Separation\n👨‍👩‍👧‍👦 Child Custody & Access\n🏠 Property Settlements\n💰 Spousal Maintenance\n🛡️ Domestic Violence Orders\n📋 Prenuptial Agreements\n👶 Adoption & Surrogacy\n\nWe understand these matters are emotionally challenging. Our team provides sensitive, professional support while fighting for your rights.\n\n✅ 95% success rate in family law cases\n✅ Experienced in complex property divisions\n✅ Child-focused approach to custody matters",
-    quickReplies: ["Book family law consultation", "Property settlement info", "Child custody help", "Domestic violence support"]
-  },
-  
-  "property_law": {
-    text: "Our Property Law services ensure smooth and secure transactions:\n\n🏠 Residential Conveyancing\n🏢 Commercial Property\n⚖️ Property Disputes\n🏗️ Development & Planning\n📋 Lease Agreements\n💼 Property Investment Advice\n🔍 Title Searches & Due Diligence\n\nWhether you're buying your first home or expanding your property portfolio, we provide:\n\n✅ Fixed-fee conveyancing from $800\n✅ Same-day contract reviews\n✅ Electronic settlement capability\n✅ Comprehensive title insurance",
-    quickReplies: ["Conveyancing quote", "Property dispute help", "Commercial property", "First home buyer info"]
-  },
-  
-  "criminal_law": {
-    text: "Our Criminal Law experts provide strong defense and representation:\n\n⚖️ Court Representation\n🚔 Police Interview Rights\n📋 Bail Applications\n🛡️ Appeals & Reviews\n💼 Traffic Offenses\n🏛️ Serious Criminal Charges\n📞 24/7 Emergency Response\n\n🚨 REMEMBER YOUR RIGHTS:\n• Right to remain silent\n• Right to legal representation\n• Right to contact a lawyer before questioning\n\n✅ Available 24/7 for arrests\n✅ Experienced in all Victorian courts\n✅ Strong track record of successful defenses",
-    quickReplies: ["Emergency criminal help", "Traffic offense help", "Court representation", "Know your rights"]
-  },
-  
-  "commercial_law": {
-    text: "Our Commercial Law team supports businesses of all sizes:\n\n📋 Contract Drafting & Review\n🤝 Business Partnerships\n💼 Employment Law\n🏢 Corporate Governance\n⚖️ Commercial Disputes\n💰 Debt Recovery\n🛡️ Intellectual Property\n📊 Compliance & Regulatory\n\nWe help businesses:\n\n✅ Minimize legal risks\n✅ Draft bulletproof contracts\n✅ Resolve disputes efficiently\n✅ Ensure regulatory compliance\n\nFrom startups to established enterprises, we're your legal partner.",
-    quickReplies: ["Contract review", "Business dispute", "Employment law", "Startup legal help"]
-  },
-  
-  "civil_litigation": {
-    text: "Our Civil Litigation team fights for your rights in:\n\n⚖️ Personal Injury Claims\n🏠 Property Disputes\n💼 Contract Disputes\n💰 Debt Recovery\n🏗️ Building & Construction\n🚗 Motor Vehicle Accidents\n📋 Professional Negligence\n🏛️ VCAT Proceedings\n\nWe offer:\n\n✅ No Win, No Fee arrangements*\n✅ Experienced court advocates\n✅ Alternative dispute resolution\n✅ Comprehensive case management\n\n*Conditions apply - ask about our fee arrangements",
-    quickReplies: ["Personal injury claim", "Property dispute", "No win no fee info", "VCAT help"]
-  },
-  
-  "wills_estates": {
-    text: "Protect your family's future with our Estate Planning services:\n\n📜 Will Preparation\n👥 Estate Administration\n⚖️ Probate Applications\n🏠 Estate Disputes\n💼 Power of Attorney\n🏥 Advance Care Directives\n💰 Trust Establishment\n📋 Estate Planning Reviews\n\nDon't leave your loved ones uncertain:\n\n✅ Simple wills from $200\n✅ Complex estate planning available\n✅ Regular review reminders\n✅ Secure document storage\n\nEstate planning isn't just for the wealthy - everyone needs a will.",
-    quickReplies: ["Simple will", "Complex estate planning", "Probate help", "Power of attorney"]
-  },
-  
-  // Action-based responses
-  "book_online": {
-    text: "Perfect! I'll direct you to our contact page where you can book your free consultation online. You'll be able to select your preferred time and provide details about your legal matter.",
-    action: "redirect_contact"
-  },
-  
-  "call_now": {
-    text: "Great choice! You can call us directly at (03) 9123 4567. Our lines are open Monday-Friday 8:30am-6:00pm, with emergency consultations available 24/7.",
-    action: "call_phone"
-  },
-  
-  "emergency_consultation": {
-    text: "For urgent legal matters, we provide 24/7 emergency consultations:\n\n🚨 Criminal arrests: Call immediately\n⚖️ Court deadlines: Same-day response\n🏠 Urgent family matters: Available weekends\n💼 Business crises: Rapid response team\n\nEmergency contact: (03) 9123 4567\nPress 1 for emergency legal assistance\n\nNote: Emergency consultation fees may apply.",
-    quickReplies: ["Call emergency line", "What constitutes emergency", "Emergency fees"]
-  },
-  
-  // Office hours
-  "office_hours": {
+  "Office hours": {
     text: "Our office hours are:\n\n🕒 Monday-Friday: 8:30am-6:00pm\n🕒 Saturday: By appointment only\n🕒 Sunday: Emergency consultations\n\n📞 24/7 Emergency line: (03) 9123 4567\n\nWe're flexible with appointment times to suit your schedule.",
-    quickReplies: ["Book consultation", "Emergency contact", "Call now"]
+    quickReplies: ["Book consultation", "Call now", "Emergency contact", "Back to main menu"]
   },
   
-  // Fees information
-  "fees": {
-    text: "Our transparent fee structure:\n\n💰 FREE 30-minute initial consultation\n📋 Fixed fees for standard services\n⏰ Competitive hourly rates\n🏆 No Win, No Fee options available*\n💳 Payment plans available\n📊 Detailed cost estimates provided\n\n*Conditions apply. We'll explain all costs upfront with no hidden fees.",
-    quickReplies: ["Free consultation", "Payment plans", "No win no fee", "Get quote"]
+  "Fees & pricing": {
+    text: "Our transparent fee structure:\n\n💰 FREE 30-minute initial consultation\n📋 Fixed fees for standard services:\n   • Simple wills from $200\n   • Conveyancing from $800\n⏰ Competitive hourly rates for complex matters\n🏆 No Win, No Fee options available*\n💳 Payment plans available\n📊 Detailed cost estimates provided upfront\n\n*Conditions apply. We'll explain all costs with no hidden fees.",
+    quickReplies: ["Free consultation", "Payment plans", "No win no fee info", "Get quote", "Back to main menu"]
   },
   
-  // Greeting response
-  "greeting": {
-    text: "Hello! Welcome back to Nasihah Legal. How can I assist you today?",
-    quickReplies: ["I need legal advice", "Book consultation", "Practice areas", "Contact info"]
+  // Practice area details
+  "Family Law": {
+    text: "Our Family Law team provides compassionate and expert assistance with:\n\n💔 Divorce & Separation\n👨‍👩‍👧‍👦 Child Custody & Access\n🏠 Property Settlements\n💰 Spousal Maintenance\n🛡️ Domestic Violence Orders\n📋 Prenuptial Agreements\n👶 Adoption & Surrogacy\n\nWe understand these matters are emotionally challenging. Our team provides sensitive, professional support while fighting for your rights.\n\n✅ 95% success rate in family law cases\n✅ Experienced in complex property divisions\n✅ Child-focused approach to custody matters",
+    quickReplies: ["Book family law consultation", "Property settlement info", "Child custody help", "Domestic violence support", "Back to practice areas"]
   },
   
-  // Thanks response
-  "thanks": {
-    text: "You're very welcome! I'm here to help. Is there anything else you'd like to know about our legal services?",
-    quickReplies: ["Book consultation", "Practice areas", "Contact info", "Fees"]
+  "Property Law": {
+    text: "Our Property Law services ensure smooth and secure transactions:\n\n🏠 Residential Conveyancing\n🏢 Commercial Property\n⚖️ Property Disputes\n🏗️ Development & Planning\n📋 Lease Agreements\n💼 Property Investment Advice\n🔍 Title Searches & Due Diligence\n\nWhether you're buying your first home or expanding your property portfolio, we provide:\n\n✅ Fixed-fee conveyancing from $800\n✅ Same-day contract reviews\n✅ Electronic settlement capability\n✅ Comprehensive title insurance",
+    quickReplies: ["Conveyancing quote", "Property dispute help", "Commercial property", "First home buyer info", "Back to practice areas"]
+  },
+  
+  "Criminal Law": {
+    text: "Our Criminal Law experts provide strong defense and representation:\n\n⚖️ Court Representation\n🚔 Police Interview Rights\n📋 Bail Applications\n🛡️ Appeals & Reviews\n💼 Traffic Offenses\n🏛️ Serious Criminal Charges\n📞 24/7 Emergency Response\n\n🚨 REMEMBER YOUR RIGHTS:\n• Right to remain silent\n• Right to legal representation\n• Right to contact a lawyer before questioning\n\n✅ Available 24/7 for arrests\n✅ Experienced in all Victorian courts\n✅ Strong track record of successful defenses",
+    quickReplies: ["Emergency criminal help", "Traffic offense help", "Court representation", "Know your rights", "Back to practice areas"]
+  },
+  
+  "Commercial Law": {
+    text: "Our Commercial Law team supports businesses of all sizes:\n\n📋 Contract Drafting & Review\n🤝 Business Partnerships\n💼 Employment Law\n🏢 Corporate Governance\n⚖️ Commercial Disputes\n💰 Debt Recovery\n🛡️ Intellectual Property\n📊 Compliance & Regulatory\n\nWe help businesses:\n\n✅ Minimize legal risks\n✅ Draft bulletproof contracts\n✅ Resolve disputes efficiently\n✅ Ensure regulatory compliance\n\nFrom startups to established enterprises, we're your legal partner.",
+    quickReplies: ["Contract review", "Business dispute", "Employment law", "Startup legal help", "Back to practice areas"]
+  },
+  
+  "Civil Litigation": {
+    text: "Our Civil Litigation team fights for your rights in:\n\n⚖️ Personal Injury Claims\n🏠 Property Disputes\n💼 Contract Disputes\n💰 Debt Recovery\n🏗️ Building & Construction\n🚗 Motor Vehicle Accidents\n📋 Professional Negligence\n🏛️ VCAT Proceedings\n\nWe offer:\n\n✅ No Win, No Fee arrangements*\n✅ Experienced court advocates\n✅ Alternative dispute resolution\n✅ Comprehensive case management\n\n*Conditions apply - ask about our fee arrangements",
+    quickReplies: ["Personal injury claim", "Property dispute", "No win no fee info", "VCAT help", "Back to practice areas"]
+  },
+  
+  "Wills & Estates": {
+    text: "Protect your family's future with our Estate Planning services:\n\n📜 Will Preparation\n👥 Estate Administration\n⚖️ Probate Applications\n🏠 Estate Disputes\n💼 Power of Attorney\n🏥 Advance Care Directives\n💰 Trust Establishment\n📋 Estate Planning Reviews\n\nDon't leave your loved ones uncertain:\n\n✅ Simple wills from $200\n✅ Complex estate planning available\n✅ Regular review reminders\n✅ Secure document storage\n\nEstate planning isn't just for the wealthy - everyone needs a will.",
+    quickReplies: ["Simple will", "Complex estate planning", "Probate help", "Power of attorney", "Back to practice areas"]
+  },
+  
+  // Action responses with proper functionality
+  "Book online now": {
+    text: "Perfect! I'm opening our contact page where you can book your FREE 30-minute consultation online. You'll be able to:\n\n✅ Select your preferred date and time\n✅ Choose your practice area\n✅ Provide details about your legal matter\n✅ Get immediate confirmation\n\nThe page will open in a new tab in just a moment...",
+    action: "redirect_contact",
+    quickReplies: ["Call instead", "Email instead", "Back to main menu"]
+  },
+  
+  "Call to book": {
+    text: "Great choice! I'm connecting you to our office now.\n\n📞 Calling: (03) 9123 4567\n\nOur friendly staff will:\n✅ Schedule your FREE consultation\n✅ Answer any immediate questions\n✅ Send you confirmation details\n\nOffice hours: Monday-Friday 8:30am-6:00pm\nEmergency line available 24/7",
+    action: "call_phone",
+    quickReplies: ["Book online instead", "Email instead", "Back to main menu"]
+  },
+  
+  "Email to book": {
+    text: "Perfect! Opening your email client now...\n\n📧 To: info@nasihahlegal.com.au\n📝 Subject: Legal Consultation Request\n\nYour email client should open with a pre-filled template including:\n✅ Consultation booking request\n✅ Fields for your preferred date/time\n✅ Space for legal matter details\n✅ Contact information section\n\nIf your email client doesn't open automatically, please email us directly at: info@nasihahlegal.com.au\n\nWe typically respond within 2 hours during business hours.",
+    action: "send_email",
+    quickReplies: ["Call instead", "Book online instead", "Back to main menu"]
+  },
+  
+  "Call now": {
+    text: "I'm connecting you to our office now.\n\n📞 Calling: (03) 9123 4567\n\nOur team is ready to help with:\n✅ Immediate legal questions\n✅ Consultation booking\n✅ Emergency matters\n✅ General information\n\nIf calling after hours, you'll reach our 24/7 emergency line.",
+    action: "call_phone",
+    quickReplies: ["Book online", "Send email", "Back to main menu"]
+  },
+  
+  "Send email": {
+    text: "Perfect! Opening your email client now...\n\n📧 To: info@nasihahlegal.com.au\n📝 Subject: General Legal Inquiry\n\nYour email client should open with a pre-filled template for:\n✅ General legal inquiries\n✅ Consultation requests\n✅ Document requests\n✅ Case updates\n\nIf your email client doesn't open automatically, please email us directly at: info@nasihahlegal.com.au\n\nWe typically respond within 2 hours during business hours.",
+    action: "send_email",
+    quickReplies: ["Call instead", "Book online", "Back to main menu"]
+  },
+  
+  "Get directions": {
+    text: "I'm opening directions to our office.\n\n📍 Nasihah Legal\n123 Sydney Road, Coburg VIC 3058\n\n🚗 Free parking available\n🚌 Near public transport\n♿ Wheelchair accessible\n\nLandmarks:\n• Near Coburg Station\n• Opposite Coburg Mall\n• Next to ANZ Bank",
+    action: "get_directions",
+    quickReplies: ["Call for directions", "Book consultation", "Back to main menu"]
+  },
+  
+  "Emergency consultation": {
+    text: "For urgent legal matters, we provide 24/7 emergency consultations:\n\n🚨 CALL IMMEDIATELY for:\n• Criminal arrests or police questioning\n• Court deadlines within 24-48 hours\n• Domestic violence situations\n• Business closure threats\n• Urgent injunction needs\n\n📞 Emergency Line: (03) 9123 4567 (Press 1)\n\nNote: Emergency consultation fees may apply.",
+    quickReplies: ["Call emergency line", "What constitutes emergency", "Regular consultation", "Back to main menu"]
+  },
+  
+  "Call emergency line": {
+    text: "I'm connecting you to our 24/7 emergency line now.\n\n🚨 Calling Emergency Line: (03) 9123 4567\n\nWhen connected, press 1 for emergency legal assistance.\n\nOur emergency team handles:\n✅ Criminal law emergencies\n✅ Urgent court matters\n✅ Time-sensitive legal issues\n✅ After-hours consultations",
+    action: "call_emergency",
+    quickReplies: ["Regular consultation", "Back to main menu"]
+  },
+  
+  // Navigation responses
+  "Back to main menu": {
+    text: "How can I help you today? Please select an option:",
+    quickReplies: [
+      "I need legal advice",
+      "Book a consultation", 
+      "Practice areas",
+      "Contact information",
+      "Office hours",
+      "Fees & pricing"
+    ]
+  },
+  
+  "Back to practice areas": {
+    text: "Which practice area would you like to know more about?",
+    quickReplies: ["Family Law", "Property Law", "Criminal Law", "Commercial Law", "Civil Litigation", "Wills & Estates", "Back to main menu"]
+  },
+  
+  // Detailed service responses
+  "Free consultation": {
+    text: "Our FREE 30-minute initial consultation includes:\n\n✅ Assessment of your legal matter\n✅ Explanation of your options\n✅ Clear advice on next steps\n✅ Transparent fee estimate\n✅ No obligation to proceed\n\nAvailable Monday-Friday 8:30am-6:00pm\nEmergency consultations available 24/7",
+    quickReplies: ["Book free consultation", "Call to book", "Email to book", "Back to main menu"]
+  },
+  
+  "No win no fee info": {
+    text: "Our No Win, No Fee arrangements are available for:\n\n✅ Personal injury claims\n✅ Some employment disputes\n✅ Certain contract disputes\n✅ Selected family law matters\n\n📋 How it works:\n• No legal fees if we don't win\n• You only pay if successful\n• Detailed terms explained upfront\n• Success fee applies if we win\n\n*Conditions apply - other costs may still apply",
+    quickReplies: ["Book consultation", "Get more details", "Call to discuss", "Back to main menu"]
+  },
+  
+  "Payment plans": {
+    text: "We offer flexible payment options:\n\n💳 Payment Plans Available:\n• Weekly payment arrangements\n• Monthly payment schedules\n• Staged payments for major matters\n• Interest-free options available\n\n💰 Payment Methods:\n• Credit/Debit cards\n• Bank transfers\n• Direct debit\n• Cash payments accepted\n\nWe'll work with you to find a suitable arrangement.",
+    quickReplies: ["Discuss payment options", "Book consultation", "Call to arrange", "Back to main menu"]
   }
 };
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(initialMessages);
-  const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [context, setContext] = useState<ConversationContext>({
     userInterests: [],
@@ -166,188 +216,109 @@ export default function Chatbot() {
     }
   }, [messages, isOpen]);
 
-  const generateBotResponse = (userMessage: string): { text: string; quickReplies?: string[]; action?: string } => {
-    const lowerMessage = userMessage.toLowerCase().trim();
-    
-    // Prevent infinite loops by checking if we just gave the same response
-    const responseKey = getResponseKey(lowerMessage);
-    if (context.lastBotResponse === responseKey && context.responseCount > 2) {
-      return {
-        text: "I notice we might be going in circles. Let me connect you with a human who can better assist you. Would you like to book a consultation or call our office directly?",
-        quickReplies: ["Book consultation", "Call now", "Start over", "Contact info"]
-      };
-    }
-    
-    // Handle greetings
-    if (lowerMessage.match(/^(hi|hello|hey|good morning|good afternoon|good evening)$/)) {
-      return botResponses.greeting;
-    }
-    
-    // Handle thanks
-    if (lowerMessage.match(/(thank|thanks|appreciate)/)) {
-      return botResponses.thanks;
-    }
-    
-    // Handle specific queries with exact matching
-    const response = getSpecificResponse(lowerMessage);
-    if (response) {
-      updateContext(responseKey);
-      return response;
-    }
-    
-    // Default response for unmatched queries
-    return {
-      text: "I'd be happy to help you with that. For specific legal advice and detailed information about your situation, I recommend speaking with one of our qualified solicitors.\n\nWe offer FREE 30-minute consultations where you can discuss your matter confidentially with an expert.",
-      quickReplies: ["Book free consultation", "Call now", "Practice areas", "More information"]
-    };
-  };
-
-  const getResponseKey = (message: string): string => {
-    // Generate a key based on the message content to track responses
-    if (message.includes('legal') && message.includes('advice')) return 'legal_advice';
-    if (message.includes('consult') || message.includes('appointment') || message.includes('meeting')) return 'consultation';
-    if (message.includes('practice') && message.includes('area')) return 'practice_areas';
-    if (message.includes('contact') || message.includes('phone') || message.includes('address')) return 'contact_info';
-    if (message.includes('family') && message.includes('law')) return 'family_law';
-    if (message.includes('property') && message.includes('law')) return 'property_law';
-    if (message.includes('criminal') && message.includes('law')) return 'criminal_law';
-    if (message.includes('commercial') && message.includes('law')) return 'commercial_law';
-    if (message.includes('civil') && message.includes('litigation')) return 'civil_litigation';
-    if (message.includes('will') || message.includes('estate')) return 'wills_estates';
-    if (message.includes('hour') || message.includes('open') || message.includes('time')) return 'office_hours';
-    if (message.includes('cost') || message.includes('fee') || message.includes('price')) return 'fees';
-    return 'default';
-  };
-
-  const getSpecificResponse = (message: string): { text: string; quickReplies?: string[]; action?: string } | null => {
-    // Legal advice
-    if ((message.includes('legal') && message.includes('advice')) || message.includes('need help')) {
-      return botResponses.legal_advice;
-    }
-    
-    // Consultation booking
-    if (message.includes('consult') || message.includes('appointment') || message.includes('meeting') || message.includes('book')) {
-      return botResponses.consultation;
-    }
-    
-    // Practice areas
-    if ((message.includes('practice') && message.includes('area')) || message.includes('services') || message.includes('what do you do')) {
-      return botResponses.practice_areas;
-    }
-    
-    // Contact information
-    if (message.includes('contact') || message.includes('phone') || message.includes('address') || message.includes('location')) {
-      return botResponses.contact_info;
-    }
-    
-    // Specific practice areas
-    if (message.includes('family law') || (message.includes('family') && message.includes('law'))) {
-      return botResponses.family_law;
-    }
-    if (message.includes('property law') || (message.includes('property') && message.includes('law'))) {
-      return botResponses.property_law;
-    }
-    if (message.includes('criminal law') || (message.includes('criminal') && message.includes('law'))) {
-      return botResponses.criminal_law;
-    }
-    if (message.includes('commercial law') || (message.includes('commercial') && message.includes('law'))) {
-      return botResponses.commercial_law;
-    }
-    if (message.includes('civil litigation') || (message.includes('civil') && message.includes('litigation'))) {
-      return botResponses.civil_litigation;
-    }
-    if (message.includes('wills') || message.includes('estate') || message.includes('will')) {
-      return botResponses.wills_estates;
-    }
-    
-    // Office hours
-    if (message.includes('hour') || message.includes('open') || message.includes('time') || message.includes('when')) {
-      return botResponses.office_hours;
-    }
-    
-    // Fees
-    if (message.includes('cost') || message.includes('fee') || message.includes('price') || message.includes('charge') || message.includes('how much')) {
-      return botResponses.fees;
-    }
-    
-    // Quick reply responses
-    if (message.includes('yes, book online') || message === 'yes, book online') {
-      return botResponses.book_online;
-    }
-    if (message.includes('call now') || message === 'call now') {
-      return botResponses.call_now;
-    }
-    if (message.includes('emergency consultation') || message === 'emergency consultation') {
-      return botResponses.emergency_consultation;
-    }
-    
-    return null;
-  };
-
-  const updateContext = (responseKey: string) => {
-    setContext(prev => ({
-      ...prev,
-      lastBotResponse: responseKey,
-      responseCount: prev.lastBotResponse === responseKey ? prev.responseCount + 1 : 1,
-      currentTopic: responseKey,
-      userInterests: Array.from(new Set([...prev.userInterests, responseKey]))
-    }));
-  };
-
-  const handleSendMessage = (text: string) => {
-    if (!text.trim()) return;
-
+  const handleQuickReply = (reply: string) => {
     // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: text.trim(),
+      text: reply,
       isBot: false,
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
     setIsTyping(true);
 
     // Simulate realistic bot typing delay
-    const typingDelay = Math.min(text.length * 50 + 1000, 3000); // 50ms per character, max 3 seconds
+    const typingDelay = Math.min(reply.length * 30 + 800, 2000);
     
     setTimeout(() => {
-      const botResponse = generateBotResponse(text);
+      const botResponse = botResponses[reply] || {
+        text: "I'm sorry, I didn't understand that option. Let me show you the main menu again:",
+        quickReplies: [
+          "I need legal advice",
+          "Book a consultation",
+          "Practice areas", 
+          "Contact information",
+          "Office hours",
+          "Fees & pricing"
+        ]
+      };
+
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: botResponse.text,
         isBot: true,
         timestamp: new Date(),
         quickReplies: botResponse.quickReplies,
-        hasLinks: botResponse.text.includes('http') || botResponse.action === 'redirect_contact'
+        hasLinks: botResponse.text.includes('http') || !!botResponse.action
       };
 
       setMessages(prev => [...prev, botMessage]);
       setIsTyping(false);
 
       // Handle actions
-      if (botResponse.action === 'redirect_contact') {
+      if (botResponse.action) {
         setTimeout(() => {
-          window.open('/contact', '_blank');
-        }, 1000);
-      } else if (botResponse.action === 'call_phone') {
-        setTimeout(() => {
-          window.open('tel:0391234567', '_self');
+          switch (botResponse.action) {
+            case 'redirect_contact':
+              window.open('/contact', '_blank');
+              break;
+            case 'call_phone':
+              window.open('tel:0391234567', '_self');
+              break;
+            case 'call_emergency':
+              window.open('tel:0391234567', '_self');
+              break;
+            case 'send_email':
+              // Different email templates based on context
+              try {
+                let emailUrl;
+                if (reply.includes('book') || reply.includes('Book')) {
+                  emailUrl = 'mailto:info@nasihahlegal.com.au?subject=Legal%20Consultation%20Request&body=Hello,%0A%0AI%20would%20like%20to%20book%20a%20FREE%2030-minute%20consultation.%0A%0APlease%20contact%20me%20to%20arrange%20a%20suitable%20time.%0A%0APreferred%20date/time:%20%0AType%20of%20legal%20matter:%20%0AMy%20contact%20details:%20%0AAny%20urgent%20concerns:%20%0A%0AThank%20you';
+                } else {
+                  emailUrl = 'mailto:info@nasihahlegal.com.au?subject=General%20Legal%20Inquiry&body=Hello,%0A%0AI%20have%20a%20legal%20inquiry%20and%20would%20appreciate%20your%20assistance.%0A%0APlease%20contact%20me%20at%20your%20earliest%20convenience.%0A%0ADetails%20of%20my%20inquiry:%20%0AMy%20contact%20details:%20%0A%0AThank%20you';
+                }
+                
+                console.log('Opening email with URL:', emailUrl);
+                
+                // Try multiple approaches for better compatibility
+                const emailWindow = window.open(emailUrl, '_self');
+                
+                // Fallback if window.open fails
+                if (!emailWindow) {
+                  // Create a temporary link and click it
+                  const link = document.createElement('a');
+                  link.href = emailUrl;
+                  link.style.display = 'none';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }
+                
+                console.log('Email client should have opened');
+              } catch (error) {
+                console.error('Error opening email client:', error);
+                // Show fallback message
+                alert('Please email us directly at: info@nasihahlegal.com.au');
+              }
+              break;
+            case 'get_directions':
+              window.open('https://maps.google.com/?q=123+Sydney+Road,+Coburg+VIC+3058', '_blank');
+              break;
+          }
         }, 1000);
       }
+
+      // Update context
+      setContext(prev => ({
+        ...prev,
+        currentTopic: reply,
+        userInterests: Array.from(new Set([...prev.userInterests, reply])),
+        hasAskedForConsultation: reply.includes('consultation') || reply.includes('book'),
+        lastBotResponse: reply,
+        responseCount: prev.lastBotResponse === reply ? prev.responseCount + 1 : 1
+      }));
     }, typingDelay);
-  };
-
-  const handleQuickReply = (reply: string) => {
-    handleSendMessage(reply);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage(inputValue);
-    }
   };
 
   const clearChat = () => {
@@ -494,50 +465,42 @@ export default function Chatbot() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
+            {/* Footer with Quick Actions - No Text Input */}
             <div className="border-t border-gray-200 p-4 bg-white">
-              <div className="flex gap-2 mb-3">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-light text-sm"
-                  disabled={isTyping}
-                />
-                <button
-                  onClick={() => handleSendMessage(inputValue)}
-                  disabled={!inputValue.trim() || isTyping}
-                  className="px-3 py-2 bg-primary-dark text-white rounded-lg hover:bg-primary-dark/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                  <Send className="w-4 h-4" />
-                </button>
+              <div className="text-center mb-3">
+                <p className="text-xs text-gray-600 mb-2">Quick Actions:</p>
+                <div className="flex justify-center gap-4 text-xs">
+                  <button 
+                    onClick={() => handleQuickReply("Call now")}
+                    className="text-primary-dark hover:text-accent-gold hover:underline flex items-center gap-1 transition-colors"
+                  >
+                    <Phone className="w-3 h-3" />
+                    Call Now
+                  </button>
+                  <button 
+                    onClick={() => handleQuickReply("Book online now")}
+                    className="text-primary-dark hover:text-accent-gold hover:underline flex items-center gap-1 transition-colors"
+                  >
+                    <Calendar className="w-3 h-3" />
+                    Book Online
+                  </button>
+                  <button 
+                    onClick={() => handleQuickReply("Send email")}
+                    className="text-primary-dark hover:text-accent-gold hover:underline flex items-center gap-1 transition-colors"
+                  >
+                    <Mail className="w-3 h-3" />
+                    Email
+                  </button>
+                </div>
               </div>
               
-              {/* Quick Actions */}
-              <div className="flex justify-center gap-4 text-xs">
-                <a 
-                  href="tel:0391234567" 
-                  className="text-primary-dark hover:text-accent-gold hover:underline flex items-center gap-1 transition-colors"
+              <div className="text-center">
+                <button
+                  onClick={() => handleQuickReply("Back to main menu")}
+                  className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full transition-colors"
                 >
-                  <Phone className="w-3 h-3" />
-                  Call Now
-                </a>
-                <a 
-                  href="/contact" 
-                  className="text-primary-dark hover:text-accent-gold hover:underline flex items-center gap-1 transition-colors"
-                >
-                  <Calendar className="w-3 h-3" />
-                  Book Online
-                </a>
-                <a 
-                  href="mailto:info@nasihahlegal.com.au" 
-                  className="text-primary-dark hover:text-accent-gold hover:underline flex items-center gap-1 transition-colors"
-                >
-                  <Mail className="w-3 h-3" />
-                  Email
-                </a>
+                  🏠 Main Menu
+                </button>
               </div>
             </div>
           </motion.div>
