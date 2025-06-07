@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { inter, playfair } from '@/lib/theme';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import Chatbot from '@/components/ui/Chatbot';
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION, SITE_MOTTO } from '@/lib/constants';
 
 export const metadata: Metadata = {
@@ -136,6 +137,7 @@ export default function RootLayout({
         <Navbar />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <Chatbot />
       </body>
     </html>
   );
