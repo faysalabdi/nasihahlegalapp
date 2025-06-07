@@ -122,9 +122,9 @@ const caseStudies = [
 
 const stats = [
   { icon: Scale, number: "98%", label: "Success Rate" },
-  { icon: DollarSign, number: "$50M+", label: "Value Recovered" },
-  { icon: Users, number: "500+", label: "Cases Resolved" },
-  { icon: Award, number: "15+", label: "Years Experience" }
+  { icon: DollarSign, number: "$100k+", label: "Value Recovered" },
+  { icon: Users, number: "50+", label: "Cases Resolved" },
+  { icon: Award, number: "5+", label: "Years Experience" }
 ];
 
 const practiceAreas = [
