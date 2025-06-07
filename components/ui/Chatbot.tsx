@@ -272,34 +272,59 @@ export default function Chatbot() {
             case 'send_email':
               // Different email templates based on context
               try {
-                let emailUrl;
+                let subject, body;
                 if (reply.includes('book') || reply.includes('Book')) {
-                  emailUrl = 'mailto:info@nasihahlegal.com.au?subject=Legal%20Consultation%20Request&body=Hello,%0A%0AI%20would%20like%20to%20book%20a%20FREE%2030-minute%20consultation.%0A%0APlease%20contact%20me%20to%20arrange%20a%20suitable%20time.%0A%0APreferred%20date/time:%20%0AType%20of%20legal%20matter:%20%0AMy%20contact%20details:%20%0AAny%20urgent%20concerns:%20%0A%0AThank%20you';
+                  subject = 'Legal Consultation Request';
+                  body = `Hello,
+
+I would like to book a FREE 30-minute consultation.
+
+Please contact me to arrange a suitable time.
+
+Preferred date/time: 
+Type of legal matter: 
+My contact details: 
+Any urgent concerns: 
+
+Thank you`;
                 } else {
-                  emailUrl = 'mailto:info@nasihahlegal.com.au?subject=General%20Legal%20Inquiry&body=Hello,%0A%0AI%20have%20a%20legal%20inquiry%20and%20would%20appreciate%20your%20assistance.%0A%0APlease%20contact%20me%20at%20your%20earliest%20convenience.%0A%0ADetails%20of%20my%20inquiry:%20%0AMy%20contact%20details:%20%0A%0AThank%20you';
+                  subject = 'General Legal Inquiry';
+                  body = `Hello,
+
+I have a legal inquiry and would appreciate your assistance.
+
+Please contact me at your earliest convenience.
+
+Details of my inquiry: 
+My contact details: 
+
+Thank you`;
                 }
+
+                // Create the mailto URL with proper encoding
+                const mailtoUrl = `mailto:info@nasihahlegal.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                 
-                console.log('Opening email with URL:', emailUrl);
+                console.log('Opening email with URL:', mailtoUrl);
                 
-                // Try multiple approaches for better compatibility
-                const emailWindow = window.open(emailUrl, '_self');
-                
-                // Fallback if window.open fails
-                if (!emailWindow) {
-                  // Create a temporary link and click it
-                  const link = document.createElement('a');
-                  link.href = emailUrl;
-                  link.style.display = 'none';
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-                }
+                // Use location.href for better compatibility
+                window.location.href = mailtoUrl;
                 
                 console.log('Email client should have opened');
               } catch (error) {
                 console.error('Error opening email client:', error);
-                // Show fallback message
-                alert('Please email us directly at: info@nasihahlegal.com.au');
+                // Show fallback message with copy-to-clipboard functionality
+                const fallbackMessage = `Please email us directly at: info@nasihahlegal.com.au\n\nOr copy this email address to your clipboard and compose your email manually.`;
+                
+                // Try to copy email to clipboard
+                if (navigator.clipboard) {
+                  navigator.clipboard.writeText('info@nasihahlegal.com.au').then(() => {
+                    alert('Email address copied to clipboard!\n\ninfo@nasihahlegal.com.au');
+                  }).catch(() => {
+                    alert(fallbackMessage);
+                  });
+                } else {
+                  alert(fallbackMessage);
+                }
               }
               break;
             case 'get_directions':
