@@ -101,7 +101,7 @@ export default function ContactPage() {
       {/* Hero Section */}
       <section className="relative h-[500px] overflow-hidden">
         <Image
-          src="https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=1280"
+          src="https://images.pexels.com/photos/5668772/pexels-photo-5668772.jpeg?auto=compress&cs=tinysrgb&w=1280"
           alt="Contact Nasihah Legal"
           fill
           className="object-cover"

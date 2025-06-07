@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
-import { Mail, Phone, Linkedin, Award, BookOpen, Users, Scale, GraduationCap } from 'lucide-react';
+import Link from 'next/link';
+import { Mail, Phone, Linkedin, Award, BookOpen, Users, Scale, GraduationCap, ArrowRight } from 'lucide-react';
 import LegalPillar from '@/src/components/LegalPillar';
 
 const teamMembers = [
@@ -54,7 +57,7 @@ export default function TeamPage() {
       {/* Hero Section */}
       <section className="relative h-[500px] overflow-hidden">
         <Image
-          src="https://images.pexels.com/photos/5668484/pexels-photo-5668484.jpeg?auto=compress&cs=tinysrgb&w=1280"
+          src="https://images.pexels.com/photos/7876050/pexels-photo-7876050.jpeg?auto=compress&cs=tinysrgb&w=1280"
           alt="Our legal team"
           fill
           className="object-cover"
@@ -233,12 +236,20 @@ export default function TeamPage() {
             the expert guidance and representation you need.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-primary-dark px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+            <Link 
+              href="/contact"
+              className="bg-white text-primary-dark px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
+            >
               Schedule a Consultation
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-dark transition-colors">
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link 
+              href="/contact"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-dark transition-colors inline-flex items-center justify-center gap-2"
+            >
               Contact Our Team
-            </button>
+              <Mail className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>

@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
-import { Scale, Shield, Home, Briefcase, Users, FileText, Clock, CheckCircle } from 'lucide-react';
+import Link from 'next/link';
+import { Scale, Shield, Home, Briefcase, Users, FileText, Clock, CheckCircle, ArrowRight, Phone } from 'lucide-react';
 import LegalPillar from '@/src/components/LegalPillar';
 
 const practiceAreas = [
@@ -216,12 +219,20 @@ export default function PracticeAreasPage() {
             Contact us today for a consultation and let us help you navigate your legal challenges with confidence.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-primary-dark px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+            <Link 
+              href="/contact"
+              className="bg-white text-primary-dark px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
+            >
               Schedule Consultation
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-dark transition-colors">
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a 
+              href="tel:0391234567"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-dark transition-colors inline-flex items-center justify-center gap-2"
+            >
               Call Now: (03) 9123 4567
-            </button>
+              <Phone className="h-4 w-4" />
+            </a>
           </div>
         </div>
       </section>

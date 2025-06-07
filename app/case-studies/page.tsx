@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Calendar, Clock, CheckCircle, ArrowRight, Users, DollarSign, Scale, Award, FileText, TrendingUp } from 'lucide-react';
 import LegalPillar from '@/src/components/LegalPillar';
 
@@ -142,7 +145,7 @@ export default function CaseStudiesPage() {
       {/* Hero Section */}
       <section className="relative h-[500px] overflow-hidden">
         <Image
-          src="https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=1280"
+          src="https://images.pexels.com/photos/6077326/pexels-photo-6077326.jpeg?auto=compress&cs=tinysrgb&w=1280"
           alt="Legal case studies and success stories"
           fill
           className="object-cover"
@@ -368,13 +371,20 @@ export default function CaseStudiesPage() {
             you achieve a successful outcome in your legal matter.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-primary-dark px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center gap-2">
+            <Link 
+              href="/contact"
+              className="bg-white text-primary-dark px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
+            >
               Start Your Case
               <ArrowRight className="h-4 w-4" />
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-dark transition-colors">
+            </Link>
+            <Link 
+              href="/practice-areas"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary-dark transition-colors inline-flex items-center justify-center gap-2"
+            >
               View All Practice Areas
-            </button>
+              <Scale className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
