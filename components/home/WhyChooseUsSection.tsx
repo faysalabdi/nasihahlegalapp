@@ -86,11 +86,11 @@ export default function WhyChooseUsSection() {
                 <div className="text-sm text-gray-300">Success Rate</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-accent-gold mb-2">15+</div>
+                <div className="text-3xl font-bold text-accent-gold mb-2">5+</div>
                 <div className="text-sm text-gray-300">Years Experience</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-accent-gold mb-2">1000+</div>
+                <div className="text-3xl font-bold text-accent-gold mb-2">50+</div>
                 <div className="text-sm text-gray-300">Happy Clients</div>
               </div>
               <div className="text-center">
