@@ -155,9 +155,9 @@ export default function Home() {
       <WhyChooseUsSection />
       <ProcessSection />
       <TestimonialsCarousel />
-      <TeamSection />
-      <BlogSection />
-      <NewsSection />
+      {/* <TeamSection />
+      <BlogSection /> */}
+      {/* <NewsSection /> */}
       <FAQSection />
       <ContactSection />
     </>

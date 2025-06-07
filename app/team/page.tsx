@@ -5,83 +5,23 @@ import LegalPillar from '@/src/components/LegalPillar';
 
 const teamMembers = [
   {
-    name: "Sarah Ahmed",
+    name: "Mohamed Mustafa",
     position: "Senior Partner & Founder",
     specialization: "Family Law & Commercial Litigation",
     image: "https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=800",
-    bio: "With over 15 years of experience, Sarah founded Nasihah Legal with a vision to provide accessible, high-quality legal services. She specializes in complex family law matters and commercial disputes.",
-    education: ["LLB, University of Melbourne", "Master of Laws, Monash University"],
+    bio: "With over 5 years of experience, Mohamed founded Nasihah Legal with a vision to provide accessible, high-quality legal services. He specializes in complex family law matters and commercial disputes.",
+    education: ["LLB, University of Deakin"],
     admissions: ["Supreme Court of Victoria", "High Court of Australia"],
-    languages: ["English", "Arabic", "Urdu"],
-    email: "sarah@nasihahlegal.com.au",
+    languages: ["English", "Arabic"],
+    email: "mohamed@nasihahlegal.com.au",
     phone: "(03) 9123 4567"
-  },
-  {
-    name: "Michael Chen",
-    position: "Senior Associate",
-    specialization: "Property Law & Conveyancing",
-    image: "https://images.pexels.com/photos/5668772/pexels-photo-5668772.jpeg?auto=compress&cs=tinysrgb&w=800",
-    bio: "Michael brings a wealth of experience in property law and conveyancing. His attention to detail and client-focused approach has helped hundreds of clients navigate complex property transactions.",
-    education: ["LLB, RMIT University", "Graduate Diploma in Legal Practice"],
-    admissions: ["Supreme Court of Victoria"],
-    languages: ["English", "Mandarin", "Cantonese"],
-    email: "michael@nasihahlegal.com.au",
-    phone: "(03) 9123 4568"
-  },
-  {
-    name: "Fatima Al-Rashid",
-    position: "Associate",
-    specialization: "Criminal Law & Civil Rights",
-    image: "https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=800",
-    bio: "Fatima is passionate about criminal defense and civil rights advocacy. She has successfully represented clients in a wide range of criminal matters and is known for her thorough preparation.",
-    education: ["LLB, La Trobe University", "Master of Criminology"],
-    admissions: ["Supreme Court of Victoria"],
-    languages: ["English", "Arabic", "French"],
-    email: "fatima@nasihahlegal.com.au",
-    phone: "(03) 9123 4569"
-  },
-  {
-    name: "David Thompson",
-    position: "Senior Associate",
-    specialization: "Wills, Estates & Elder Law",
-    image: "https://images.pexels.com/photos/4427430/pexels-photo-4427430.jpeg?auto=compress&cs=tinysrgb&w=800",
-    bio: "David specializes in estate planning and elder law, helping families protect their assets and plan for the future. His compassionate approach makes difficult conversations easier for clients.",
-    education: ["LLB, Deakin University", "Graduate Certificate in Estate Planning"],
-    admissions: ["Supreme Court of Victoria"],
-    languages: ["English"],
-    email: "david@nasihahlegal.com.au",
-    phone: "(03) 9123 4570"
-  },
-  {
-    name: "Priya Sharma",
-    position: "Associate",
-    specialization: "Employment Law & Workplace Relations",
-    image: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800",
-    bio: "Priya focuses on employment law and workplace relations, representing both employers and employees. She has extensive experience in workplace disputes and compliance matters.",
-    education: ["LLB, Victoria University", "Master of Employment Relations"],
-    admissions: ["Supreme Court of Victoria"],
-    languages: ["English", "Hindi", "Punjabi"],
-    email: "priya@nasihahlegal.com.au",
-    phone: "(03) 9123 4571"
-  },
-  {
-    name: "James Wilson",
-    position: "Junior Associate",
-    specialization: "General Practice & Research",
-    image: "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=800",
-    bio: "James is our newest team member, bringing fresh perspectives and strong research skills. He assists across all practice areas and is particularly interested in technology law.",
-    education: ["LLB, University of Melbourne", "Bachelor of Commerce"],
-    admissions: ["Supreme Court of Victoria"],
-    languages: ["English"],
-    email: "james@nasihahlegal.com.au",
-    phone: "(03) 9123 4572"
   }
 ];
 
 const stats = [
-  { number: "50+", label: "Years Combined Experience" },
-  { number: "2000+", label: "Cases Handled" },
-  { number: "6", label: "Languages Spoken" },
+  { number: "20+", label: "Years Combined Experience" },
+  { number: "100+", label: "Cases Handled" },
+  { number: "4", label: "Languages Spoken" },
   { number: "95%", label: "Client Satisfaction Rate" }
 ];
 

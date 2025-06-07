@@ -7,7 +7,7 @@ import LegalPillar from '@/src/components/LegalPillar';
 const stats = [
   {
     icon: Users,
-    number: "2,500+",
+    number: "50+",
     label: "Clients Served",
     description: "Successfully represented clients across Victoria"
   },
@@ -19,19 +19,19 @@ const stats = [
   },
   {
     icon: Clock,
-    number: "15+",
+    number: "5+",
     label: "Years Experience",
     description: "Combined legal expertise across our team"
   },
   {
     icon: TrendingUp,
-    number: "$50M+",
+    number: "$100k+",
     label: "Value Recovered",
     description: "In settlements and judgments for clients"
   },
   {
     icon: Scale,
-    number: "1,200+",
+    number: "100+",
     label: "Cases Won",
     description: "Successful legal outcomes delivered"
   },
