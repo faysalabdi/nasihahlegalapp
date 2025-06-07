@@ -8,13 +8,37 @@ import LegalPillar from '@/src/components/LegalPillar';
 
 export default function ContactSection() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    // Let Formspree handle the submission
-    // Show success message after a brief delay to simulate processing
-    setTimeout(() => {
-      setIsSubmitted(true);
-    }, 1000);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    formData.append("access_key", "f30af105-7d1f-4723-a9cb-dd4fec50cf50");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsSubmitted(true);
+        // Reset form
+        (e.target as HTMLFormElement).reset();
+      } else {
+        console.log("Error", data);
+        alert("There was an error submitting your message. Please try again.");
+      }
+    } catch (error) {
+      console.log("Error", error);
+      alert("There was an error submitting your message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -130,7 +154,7 @@ export default function ContactSection() {
               {isSubmitted ? (
                 <div className="text-center py-8">
                   <div className="mb-4 inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg\" fill="none\" viewBox="0 0 24 24\" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-green-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-green-600">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
@@ -146,11 +170,13 @@ export default function ContactSection() {
                   </button>
                 </div>
               ) : (
-                <form 
-                  action="https://formspree.io/f/mjkrgvav" 
-                  method="POST" 
-                  onSubmit={handleSubmit}
-                >
+                <form onSubmit={handleSubmit}>
+                  {/* Web3Forms Access Key */}
+                  <input type="hidden" name="access_key" value="f30af105-7d1f-4723-a9cb-dd4fec50cf50" />
+                  
+                  {/* Optional: Bot check */}
+                  <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
+                  
                   <h3 className="text-2xl font-bold mb-6">Contact Form</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -234,9 +260,10 @@ export default function ContactSection() {
                   
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center bg-primary-dark hover:bg-primary-main text-white font-medium py-3 px-8 rounded-full transition-colors"
+                    disabled={isSubmitting}
+                    className="w-full inline-flex items-center justify-center bg-primary-dark hover:bg-primary-main text-white font-medium py-3 px-8 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Send Message <ArrowRight className="ml-2 h-5 w-5" />
+                    {isSubmitting ? 'Sending...' : 'Send Message'} <ArrowRight className="ml-2 h-5 w-5" />
                   </button>
                 </form>
               )}

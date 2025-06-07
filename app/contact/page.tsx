@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { MapPin, Phone, Mail, Clock, Send, User, MessageSquare, Calendar, CheckCircle, ArrowRight } from 'lucide-react';
 import LegalPillar from '@/src/components/LegalPillar';
@@ -62,6 +62,40 @@ const practiceAreas = [
 ];
 
 export default function ContactPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    formData.append("access_key", "f30af105-7d1f-4723-a9cb-dd4fec50cf50");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsSubmitted(true);
+        // Reset form
+        (e.target as HTMLFormElement).reset();
+      } else {
+        console.log("Error", data);
+        alert("There was an error submitting your message. Please try again.");
+      }
+    } catch (error) {
+      console.log("Error", error);
+      alert("There was an error submitting your message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -155,102 +189,124 @@ export default function ContactPage() {
             {/* Contact Form */}
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-2xl font-bold mb-6 font-playfair">Send Us a Message</h3>
-              <form 
-                action="https://formspree.io/f/mjkrgvav" 
-                method="POST" 
-                className="space-y-6"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
-                    <input 
-                      type="text" 
-                      name="firstName"
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
-                      placeholder="Your first name"
-                    />
+              
+              {isSubmitted ? (
+                <div className="text-center py-8">
+                  <div className="mb-4 inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full">
+                    <CheckCircle className="w-8 h-8 text-green-600" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
-                    <input 
-                      type="text" 
-                      name="lastName"
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
-                      placeholder="Your last name"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
-                  <input 
-                    type="email" 
-                    name="email"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
-                  <input 
-                    type="tel" 
-                    name="phone"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
-                    placeholder="(03) 1234 5678"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Practice Area *</label>
-                  <select 
-                    name="practiceArea"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
+                  <h4 className="text-2xl font-bold mb-2">Thank You!</h4>
+                  <p className="text-muted-foreground mb-6">
+                    Your message has been sent successfully. Our team will get back to you shortly.
+                  </p>
+                  <button
+                    onClick={() => setIsSubmitted(false)}
+                    className="bg-primary-dark text-white px-6 py-2 rounded-lg hover:bg-primary-dark/90 transition-colors"
                   >
-                    <option value="">Select a practice area</option>
-                    {practiceAreas.map((area, index) => (
-                      <option key={index} value={area}>{area}</option>
-                    ))}
-                  </select>
+                    Send Another Message
+                  </button>
                 </div>
-                
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Message *</label>
-                  <textarea 
-                    rows={5}
-                    name="message"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
-                    placeholder="Please describe your legal matter and how we can help you..."
-                  ></textarea>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <input 
-                    type="checkbox" 
-                    id="privacy" 
-                    name="privacyConsent"
-                    required
-                    className="mt-1 w-4 h-4 text-primary-dark border-gray-300 rounded focus:ring-primary-light"
-                  />
-                  <label htmlFor="privacy" className="text-sm text-gray-600">
-                    I agree to the <a href="#" className="text-primary-dark hover:underline">Privacy Policy</a> and 
-                    consent to being contacted about my legal matter.
-                  </label>
-                </div>
-                
-                <button 
-                  type="submit"
-                  className="w-full bg-primary-dark text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark/90 transition-colors flex items-center justify-center gap-2"
-                >
-                  Send Message
-                  <Send className="h-4 w-4" />
-                </button>
-              </form>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Web3Forms Access Key */}
+                  <input type="hidden" name="access_key" value="f30af105-7d1f-4723-a9cb-dd4fec50cf50" />
+                  
+                  {/* Optional: Bot check */}
+                  <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
+                      <input 
+                        type="text" 
+                        name="firstName"
+                        required
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
+                        placeholder="Your first name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
+                      <input 
+                        type="text" 
+                        name="lastName"
+                        required
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
+                        placeholder="Your last name"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
+                    <input 
+                      type="email" 
+                      name="email"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+                    <input 
+                      type="tel" 
+                      name="phone"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
+                      placeholder="(03) 1234 5678"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Practice Area *</label>
+                    <select 
+                      name="practiceArea"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
+                    >
+                      <option value="">Select a practice area</option>
+                      {practiceAreas.map((area, index) => (
+                        <option key={index} value={area}>{area}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Message *</label>
+                    <textarea 
+                      rows={5}
+                      name="message"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent"
+                      placeholder="Please describe your legal matter and how we can help you..."
+                    ></textarea>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <input 
+                      type="checkbox" 
+                      id="privacy" 
+                      name="privacyConsent"
+                      required
+                      className="mt-1 w-4 h-4 text-primary-dark border-gray-300 rounded focus:ring-primary-light"
+                    />
+                    <label htmlFor="privacy" className="text-sm text-gray-600">
+                      I agree to the <a href="#" className="text-primary-dark hover:underline">Privacy Policy</a> and 
+                      consent to being contacted about my legal matter.
+                    </label>
+                  </div>
+                  
+                  <button 
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-primary-dark text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                    <Send className="h-4 w-4" />
+                  </button>
+                </form>
+              )}
             </div>
 
             {/* Office Information */}
@@ -321,82 +377,30 @@ export default function ContactPage() {
       </section>
 
       {/* Interactive Map Section */}
-      <section className="py-20 relative">
+      <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 font-playfair">Find Our Office</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Conveniently located in Coburg with easy access to public transport and free parking
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Conveniently located in Coburg with easy access by car or public transport. Free parking available for all clients.
             </p>
           </div>
-          
-          {/* Interactive Google Map */}
           <div className="rounded-lg overflow-hidden shadow-lg">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3154.6209717913794!2d144.9644677!3d-37.7520354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad644ac70ea0b51%3A0x4b28e06746e9d906!2s123%20Sydney%20Rd%2C%20Coburg%20VIC%203058!5e0!3m2!1sen!2sau!4v1749181063302!5m2!1sen!2sau"
-              width="100%"
-              height="450"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3156.9588938329707!2d144.96442541744386!3d-37.74178899999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad644a54a800a15%3A0x33f92589cdc593c4!2s1%2F288%20Sydney%20Rd%2C%20Coburg%20VIC%203058!5e0!3m2!1sen!2sau!4v1688434111681!5m2!1sen!2sau" 
+              width="100%" 
+              height="450" 
+              style={{ border: 0 }} 
+              allowFullScreen={false} 
+              loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"
               title="Nasihah Legal Office Location"
             ></iframe>
           </div>
-          
-          {/* Map Info Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <div className="bg-primary-light/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <MapPin className="h-8 w-8 text-primary-dark" />
-              </div>
-              <h3 className="text-lg font-bold mb-2 font-playfair">Easy to Find</h3>
-              <p className="text-sm text-muted-foreground">
-                Located on busy Sydney Road with clear signage and street-level access
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <div className="bg-primary-light/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <svg className="h-8 w-8 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2v0a2 2 0 01-2-2v-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold mb-2 font-playfair">Free Parking</h3>
-              <p className="text-sm text-muted-foreground">
-                Complimentary parking available for all clients during consultations
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <div className="bg-primary-light/10 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <svg className="h-8 w-8 text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold mb-2 font-playfair">Public Transport</h3>
-              <p className="text-sm text-muted-foreground">
-                Multiple bus routes and close to Coburg train station for easy access
-              </p>
-            </div>
-          </div>
-          
-          {/* Directions Button */}
-          <div className="text-center mt-8">
-            <a 
-              href="https://www.google.com/maps/dir//123+Sydney+Rd,+Coburg+VIC+3058,+Australia"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-primary-dark text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark/90 transition-colors"
-            >
-              Get Directions
-              <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Call to Action */}
       <section className="py-20 bg-primary-dark text-white relative overflow-hidden">
         {/* Decorative Pillars */}
         <div className="absolute top-0 left-1/4 opacity-10">
