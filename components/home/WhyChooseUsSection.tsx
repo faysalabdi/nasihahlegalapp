@@ -44,8 +44,8 @@ export default function WhyChooseUsSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.pexels.com/photos/4427431/pexels-photo-4427431.jpeg?auto=compress&cs=tinysrgb&w=1280"
-          alt="Professional legal consultation"
+          src="/images/legalteam.jpg"
+          alt="Professional legal team"
           fill
           className="object-cover"
         />

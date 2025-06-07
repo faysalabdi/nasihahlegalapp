@@ -57,10 +57,10 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     images: [
       {
-        url: '/og-image.png',
+        url: '/images/logo.png',
         width: 1200,
         height: 630,
-        alt: `${SITE_NAME} - Professional Legal Services`,
+        alt: `${SITE_NAME} - Professional Legal Services Logo`,
       },
     ],
   },
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${SITE_NAME} - "${SITE_MOTTO}" | Professional Legal Services in Coburg, Melbourne`,
     description: SITE_DESCRIPTION,
-    images: ['/og-image.png'],
+    images: ['/images/logo.png'],
     creator: '@nasihahlegal',
     site: '@nasihahlegal',
   },
