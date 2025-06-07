@@ -18,7 +18,6 @@ const contactMethods = [
     icon: Mail,
     title: "Email Us",
     primary: "info@nasihahlegal.com.au",
-    secondary: "urgent@nasihahlegal.com.au",
     description: "Get a response within 24 hours",
     available: "24/7 monitoring"
   },
@@ -347,7 +346,6 @@ export default function ContactPage() {
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-1">Email</h4>
                       <p className="text-gray-600">info@nasihahlegal.com.au</p>
-                      <p className="text-gray-600">urgent@nasihahlegal.com.au</p>
                     </div>
                   </div>
                 </div>
