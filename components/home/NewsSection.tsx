@@ -74,17 +74,8 @@ export default function NewsSection() {
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Decorative Legal Pillars */}
-      <div className="absolute top-16 left-8 opacity-7 z-0">
-        <LegalPillar variant="pattern" size="lg" />
-      </div>
       <div className="absolute top-40 right-12 opacity-5 z-0">
         <LegalPillar variant="dark" size="xl" rotate />
-      </div>
-      <div className="absolute bottom-20 left-1/4 opacity-10 z-0">
-        <LegalPillar variant="light" size="md" />
-      </div>
-      <div className="absolute bottom-32 right-1/3 opacity-8 z-0">
-        <LegalPillar variant="pattern" size="sm" rotate />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

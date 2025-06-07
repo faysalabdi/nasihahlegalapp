@@ -17,16 +17,6 @@ export default function AboutSection() {
 
   return (
     <section className="py-20 relative overflow-hidden">
-      {/* Decorative Legal Pillars */}
-      <div className="absolute top-12 right-8 opacity-7 z-0">
-        <LegalPillar variant="light" size="lg" />
-      </div>
-      <div className="absolute top-48 left-12 opacity-5 z-0">
-        <LegalPillar variant="dark" size="xl" rotate />
-      </div>
-      <div className="absolute bottom-16 right-1/4 opacity-10 z-0">
-        <LegalPillar variant="pattern" size="md" />
-      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -80,10 +70,6 @@ export default function AboutSection() {
             viewport={{ once: true }}
             className="order-1 lg:order-2 relative"
           >
-            {/* Decorative pillar near image */}
-            <div className="absolute -top-8 -right-8 opacity-15">
-              <LegalPillar variant="light" size="md" rotate />
-            </div>
             
             <div className="relative">
               <div className="relative h-[500px] rounded-lg overflow-hidden">

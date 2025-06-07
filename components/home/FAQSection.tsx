@@ -50,17 +50,8 @@ export default function FAQSection() {
   return (
     <section className="py-20 bg-background-subtle relative overflow-hidden">
       {/* Decorative Legal Pillars */}
-      <div className="absolute top-16 left-8 opacity-6 z-0">
-        <LegalPillar variant="pattern" size="lg" />
-      </div>
-      <div className="absolute top-40 right-12 opacity-8 z-0">
-        <LegalPillar variant="dark" size="xl" rotate />
-      </div>
-      <div className="absolute bottom-20 left-1/4 opacity-5 z-0">
-        <LegalPillar variant="light" size="md" rotate />
-      </div>
-      <div className="absolute bottom-32 right-1/3 opacity-10 z-0">
-        <LegalPillar variant="pattern" size="sm" />
+      <div className="absolute top-16 left-8 opacity-5 z-0">
+        <LegalPillar variant="dark" size="xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

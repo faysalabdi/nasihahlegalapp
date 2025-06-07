@@ -16,17 +16,8 @@ export default function BlogSection() {
   return (
     <section className="py-20 bg-background-subtle relative overflow-hidden">
       {/* Decorative Legal Pillars */}
-      <div className="absolute top-12 left-10 opacity-6 z-0">
-        <LegalPillar variant="dark" size="lg" />
-      </div>
-      <div className="absolute top-32 right-8 opacity-8 z-0">
-        <LegalPillar variant="pattern" size="xl" rotate />
-      </div>
-      <div className="absolute bottom-24 left-1/4 opacity-5 z-0">
-        <LegalPillar variant="light" size="md" rotate />
-      </div>
-      <div className="absolute bottom-16 right-1/3 opacity-10 z-0">
-        <LegalPillar variant="dark" size="sm" />
+      <div className="absolute top-16 left-8 opacity-5 z-0">
+        <LegalPillar variant="dark" size="xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

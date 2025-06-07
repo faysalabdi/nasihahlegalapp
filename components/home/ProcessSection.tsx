@@ -55,15 +55,6 @@ export default function ProcessSection() {
       <div className="absolute top-16 left-8 opacity-7 z-0">
         <LegalPillar variant="light" size="lg" />
       </div>
-      <div className="absolute top-48 right-12 opacity-5 z-0">
-        <LegalPillar variant="dark" size="xl" rotate />
-      </div>
-      <div className="absolute bottom-24 left-1/4 opacity-10 z-0">
-        <LegalPillar variant="pattern" size="md" />
-      </div>
-      <div className="absolute bottom-16 right-1/3 opacity-8 z-0">
-        <LegalPillar variant="light" size="sm" rotate />
-      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
