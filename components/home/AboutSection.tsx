@@ -82,12 +82,12 @@ export default function AboutSection() {
               </div>
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-lg shadow-lg max-w-xs">
                 <div className="flex items-center mb-3">
-                  <div className="text-4xl font-bold text-primary-dark mr-2">15+</div>
+                  <div className="text-4xl font-bold text-primary-dark mr-2">5+</div>
                   <div className="text-sm text-muted-foreground">Years of Combined Experience</div>
                 </div>
                 <div className="h-1 w-16 bg-accent-gold mb-3"></div>
                 <p className="text-sm">
-                  Our dedicated team brings over 15 years of combined legal experience to every case.
+                  Our dedicated team brings over 5 years of combined legal experience to every case.
                 </p>
               </div>
             </div>
